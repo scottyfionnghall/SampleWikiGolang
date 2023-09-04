@@ -13,6 +13,19 @@ type Page struct {
 	Body  []byte
 }
 
+func (p *Page) GetAllPages() []template.HTML {
+	files, err := os.ReadDir("data/")
+	if err != nil {
+		log.Fatal(err)
+	}
+	var return_files []template.HTML
+	for _, file := range files {
+		link := template.HTML(file.Name()[:len(file.Name())-4])
+		return_files = append(return_files, link)
+	}
+	return return_files
+}
+
 func (p *Page) save() error {
 	filename := "data/" + p.Title + ".txt"
 	return os.WriteFile(filename, p.Body, 0600)
@@ -62,11 +75,12 @@ func editHandler(w http.ResponseWriter, r *http.Request, title string) {
 	p, err := loadPage(title)
 	if p.Title == "FrontPage" {
 		http.Redirect(w, r, "/", http.StatusFound)
+	} else {
+		if err != nil {
+			p = &Page{Title: title}
+		}
+		renderTemplate(w, "edit", p)
 	}
-	if err != nil {
-		p = &Page{Title: title}
-	}
-	renderTemplate(w, "edit", p)
 }
 
 func saveHandler(w http.ResponseWriter, r *http.Request, title string) {
@@ -81,12 +95,7 @@ func saveHandler(w http.ResponseWriter, r *http.Request, title string) {
 }
 
 func rootHandler(w http.ResponseWriter, r *http.Request) {
-	p, err := loadPage("FrontPage")
-	if err != nil {
-		http.NotFound(w, r)
-		return
-	}
-	renderTemplate(w, "default", p)
+	http.Redirect(w, r, "/view/FrontPage", http.StatusFound)
 }
 
 func main() {

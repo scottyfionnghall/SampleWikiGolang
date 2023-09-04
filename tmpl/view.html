@@ -60,7 +60,15 @@ body {
         <article class="main">
           <p>{{printf "%s" .Body}}</p>  
         </article>
-        <!-- <aside class="aside aside-1">Aside 1</aside> -->
+        <aside class="aside aside-1">
+          <ul>
+            {{range $link := .GetAllPages}} 
+            <li>
+              <a href="{{$link}}">{{$link}}</a>
+            </li>
+            {{end}}
+          </ul>
+        </aside>
         <footer class="footer">
             <a href="/edit/{{.Title}}">EDIT</a>
         </footer>
