@@ -1,0 +1,61 @@
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,700;1,500&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<style>
+    .wrapper {
+  display: flex;  
+  flex-flow: row wrap;
+  font-weight: bold;
+  text-align: center; 
+}
+
+.wrapper > * {
+  padding: 10px;
+  flex: 1 100%;
+}
+
+.header {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+}
+
+.main {
+  text-align: left;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 500;
+}
+
+.aside-1 {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 500;
+}
+
+
+@media all and (min-width: 600px) {
+  .aside { flex: 1 0 0; }
+}
+
+@media all and (min-width: 800px) {
+  .main    { flex: 3 0px; }
+  .aside-1 { order: 1; } 
+  .main    { order: 2; }
+  .aside-2 { order: 3; }
+  .footer  { order: 4; }
+}
+
+body {
+  padding: 2em; 
+}
+</style>
+<body>
+    <div class="wrapper">
+        <header class="header">{{.Title}}</header>
+        <article class="main">
+          <p>{{printf "%s" .Body}}</p>  
+        </article>
+        <!-- <aside class="aside aside-1">Aside 1</aside> -->
+      </div>
+</body>
